@@ -2,36 +2,55 @@
 
 from db_config import get_connection
 
-class PersonaDAO:
-    def insertar(self, nombre, edad):
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO personas (nombre, edad) VALUES (%s, %s)", (nombre, edad))
-        conn.commit()
-        cursor.close()
-        conn.close()
+conn = get_connection()
+cursor = conn.cursor()
 
-    def listar(self):
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM personas")
-        resultados = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return resultados
+def usuario(user_id):
 
-    def actualizar(self, id_persona, nombre, edad):
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute("UPDATE personas SET nombre=%s, edad=%s WHERE id=%s", (nombre, edad, id_persona))
-        conn.commit()
-        cursor.close()
-        conn.close()
+    query = """
+            SELECT * FROM usuarios
+            WHERE id = %s
+            """
 
-    def eliminar(self, id_persona):
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM personas WHERE id=%s", (id_persona,))
-        conn.commit()
-        cursor.close()
-        conn.close()
+    cursor.execute(query, (user_id,))
+    user = cursor.fetchone()
+
+    if user:
+        print(f"ID: {user[0]}")
+        print(f"Nombre: {user[1]}")
+        print(f"Correo: {user[2]}")
+        print(f"Password: {user[3]}")
+        print(f"Fecha de creación: {user[4]}")
+        print(f"País: {user[5]}")
+    else:
+        print("Usuario no encontrado")
+
+
+def juego(game_id):
+
+    query = """
+            SELECT * FROM juegos
+            WHERE id = %s
+            """
+
+    cursor.execute(query, (user_id,))
+    user = cursor.fetchone()
+
+    if user:
+        print(f"ID: {user[0]}")
+        print(f"Nombre: {user[1]}")
+        print(f"Correo: {user[2]}")
+        print(f"Password: {user[3]}")
+        print(f"Fecha de creación: {user[4]}")
+        print(f"País: {user[5]}")
+    else:
+        print("Usuario no encontrado")
+
+
+
+
+
+
+
+cursor.close()
+conn.close()
